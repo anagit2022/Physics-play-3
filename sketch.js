@@ -168,32 +168,33 @@ function getValues(){
 }
 
 // reads the Motion textarea and fills in every slider's {TOKEN} with its
-// current value
+// current value. Also supports simple offsets like {Y+10} or {F-500}.
 function buildMotionLines(){
     const template = document.getElementById("motionInput").value.split("\n");
     return template
         .map(line => line.trim())
         .filter(line => line !== "")
-        .map(line => {
-            let result = line;
-            sliders.forEach(def => {
-                if(def.token){
-                    result = result.split(`{${def.token}}`).join(def.value);
-                }
-            });
-            return result;
-        });
+        .map(line => line.replace(/\{([^{}+\-]+)([+\-]\d+(?:\.\d+)?)?\}/g, (match, tokenName, offset) => {
+            const def = sliders.find(s => s.token === tokenName);
+            if(!def) return match; // no matching slider — leave as-is so the warning below can flag it
+            let value = def.value;
+            if(offset) value += parseFloat(offset);
+            return value;
+        }));
 }
 
 function updateMotionPreview(){
     const rawTemplate = document.getElementById("motionInput").value;
     const preview = buildMotionLines().join("\n");
 
-    // flag any {token} in the text that doesn't match a current slider,
-    // so a rename/typo is obvious instead of silently doing nothing
-    const usedTokens = rawTemplate.match(/\{[^{}]+\}/g) || [];
-    const knownTokens = sliders.map(s => `{${s.token}}`);
-    const unmatched = [...new Set(usedTokens.filter(t => !knownTokens.includes(t)))];
+    // flag any {token} or {token+N}/{token-N} in the text that doesn't
+    // match a current slider, so a rename/typo is obvious instead of
+    // silently doing nothing
+    const tokenMatches = [...rawTemplate.matchAll(/\{([^{}+\-]+)(?:[+\-]\d+(?:\.\d+)?)?\}/g)];
+    const knownTokenNames = sliders.map(s => s.token);
+    const unmatched = [...new Set(
+        tokenMatches.filter(m => !knownTokenNames.includes(m[1])).map(m => m[0])
+    )];
 
     if(unmatched.length > 0){
         motionPreview.innerHTML =
