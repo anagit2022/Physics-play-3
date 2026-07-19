@@ -65,6 +65,7 @@ function createObservationCard(){
                             <button type="button" class="help-menu-item" data-mode="graphical">Graphical insight</button>
                             <button type="button" class="help-menu-item" data-mode="theoretical">Theoretical insight</button>
                             <button type="button" class="help-menu-item" data-mode="formula">Generalized formula</button>
+                            <button type="button" class="help-menu-item" data-mode="simple">Explain like I'm 5</button>
                         </div>
                     </div>
                 </div>
@@ -374,6 +375,10 @@ const INSIGHT_MODES = {
     formula: {
         label: "Generalized formula",
         instruction: "Propose a simple generalized formula/equation relating the measured variables, based on the numbers given. State the formula clearly, then briefly explain each term."
+    },
+    simple: {
+        label: "Explain like I'm 5",
+        instruction: "Explain what happened in plain, simple language a child or someone with no physics background could understand. Avoid jargon, formulas, and technical terms — use an everyday comparison or analogy if it helps."
     }
 };
 
