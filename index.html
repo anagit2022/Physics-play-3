@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Physics Playground</title>
+</head>
+<body>
+
+    <header class="topbar">Physics playground</header>
+
+    <div class="grid">
+
+        <!-- LEFT COLUMN -->
+        <div class="col left-col">
+
+            <div class="panel">
+                <h2>Connect printer</h2>
+                <button id="connectButton" class="outline-btn">Connect</button>
+                <div id="connectStatus" class="status">Not connected</div>
+            </div>
+
+            <div class="panel">
+                <h2>Setup</h2>
+                <textarea id="setupInput" class="code-box" rows="2">G91</textarea>
+                <div class="hint">Sent once, before the experiment starts</div>
+            </div>
+
+            <div class="panel">
+                <h2>Motion</h2>
+                <textarea id="motionInput" class="code-box" rows="4">G0 Y{Y} F{F}
+G0 Y-{Y} F{F}</textarea>
+                <div class="hint">Edit freely. Placeholders match whatever token each slider is set to (e.g. <code>{Y}</code>, <code>{F}</code>) — filled in live from the sliders every cycle.</div>
+                <div id="motionPreview" class="code-box motion-preview"></div>
+                <div class="hint">Preview: what's actually sent right now</div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="col right-col">
+
+            <div id="slidersContainer"></div>
+
+            <button id="addSliderButton" type="button" class="add-slider-btn">+ Add slider</button>
+
+            <div class="play-row">
+                <button id="playButton" class="play-btn">Play experiment</button>
+                <button id="stopButton" class="stop-btn">Stop</button>
+            </div>
+
+        </div>
+
+        <!-- OBSERVATION COLUMN -->
+        <div class="col obs-col">
+            <div class="obs-header">
+                <h2>Observation cards</h2>
+                <button id="addCardButton" class="add-card-btn" title="Add new card">+</button>
+            </div>
+            <div class="ai-settings">
+                <label for="geminiKey">Gemini API key</label>
+                <input type="password" id="geminiKey" placeholder="Paste your Gemini API key">
+                <div class="hint">Used by the Help button to draft insights. Stored only in this browser.</div>
+            </div>
+            <div id="cardsContainer"></div>
+        </div>
+
+    </div>
+
+    <div class="panel console-panel">
+        <h2>Command History</h2>
+        <div id="console"></div>
+    </div>
+
+    <script src="sketch.js?v=5"></script>
+    <script src="observation.js?v=5"></script>
+</body>
+</html>
