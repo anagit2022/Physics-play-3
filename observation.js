@@ -377,7 +377,7 @@ const INSIGHT_MODES = {
         instruction: "Propose a simple generalized formula/equation relating the measured variables, based on the numbers given. State the formula clearly, then briefly explain each term."
     },
     simple: {
-        label: "Explain like I'm 5",
+        label: "Simple",
         instruction: "Explain what happened in plain, simple language a child or someone with no physics background could understand. Avoid jargon, formulas, and technical terms — use an everyday comparison or analogy if it helps."
     }
 };
